@@ -43,6 +43,10 @@ Route::group(['before' => 'auth'], function(){
 	Route::put('users/edit/{id}', 'UserController@update');
 		// Eliminar usuario
 	Route::delete('users/{id}', 'UserController@destroy');
+
+	// Vincular una cuenta con Facebook
+	Route::get('add-account/fb', 'FacebookController@addAccount');
+	Route::get('add-account/fb/callback', 'FacebookController@callbackAddAccount');
 });
 
 // Ruta Activar mi cuenta

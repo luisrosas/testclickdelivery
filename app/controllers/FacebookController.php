@@ -19,13 +19,17 @@ class FacebookController extends \BaseController {
 		return Redirect::to($this->fb->getUrl(url('register/fb/callback')));
 	}
 
+	public function addAccount()
+	{
+		return Redirect::to($this->fb->getUrl(url('add-account/fb/callback')));
+	}
+
 	public function callbackLogin()
 	{
 		$userFB = $this->fb->getDataUser();
 		if(!$userFB)
-		{
 			return Redirect::to('/')->with('message', 'Error, al intentar iniciar sesión con Facebook');
-		}
+		
 		
 		$user = User::where('facebookId', $userFB['id'])->get();
 
@@ -49,9 +53,8 @@ class FacebookController extends \BaseController {
 	{
 		$userFB = $this->fb->getDataUser();
 		if(!$userFB)
-		{
 			return Redirect::to('/')->with('message', 'Error, al intentar registrarse con Facebook');
-		}
+		
 		
 		$data = array(
 			'correo'	=> mb_strtolower($userFB['email'])
@@ -107,6 +110,32 @@ class FacebookController extends \BaseController {
 		
 
 		return Redirect::back()->withErrors($message);
+	}
+
+	public function callbackAddAccount()
+	{
+		$userFB = $this->fb->getDataUser();
+		if(!$userFB)
+			return Redirect::to('users')->with('message', 'Error, al intentar vincular Facebook a su cuenta');
+		
+		$userVerify = User::where('facebookId', $userFB['id'])->get()->count();
+		/*if($userVerify > 0)
+		{
+			$message = ['message' => 'Ya existe una cuenta vinculada con este Facebook', 'type' => 'alert-danger'];
+			return Redirect::to('users')->withErrors($message);
+		}*/
+
+		$user = User::find(Auth::user()->id);
+		$user->facebookId = $userFB['id'];
+		if($user->save())
+		{
+			Auth::user()->facebookId = $userFB['id'];
+			$message = ['message' => 'Facebook se ha vinculado a su cuenta, ahora podrá iniciar sesión con Facebook.', 'type' => 'alert-success'];
+		}
+		else
+			$message = ['message' => 'Ha ocurrdo un error al vincular Facebook a su ceunta, por favor intente nuevamente', 'type' => 'alert-danger'];
+	
+		return Redirect::to('users')->withErrors($message);
 	}
 
 }
