@@ -1,0 +1,22 @@
+*{ margin:0; padding: 0;}
+.panel-primary>.panel-heading {
+	color: #fff;
+	background-color: #d21834!important;
+	border-color: #d21834 !important;
+}
+.panel-primary {
+	border-color: #d21834!important;
+}
+.top-m{margin-top: 20px;}
+a.btn-primary-custom {
+	color: #ffffff;
+	background-color: #d21834;
+}
+.btn-home{
+	float: right;
+	font-size: 30px;
+	color: #ffffff;
+}
+table a{
+	text-decoration: none;
+}
