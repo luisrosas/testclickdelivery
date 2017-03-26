@@ -22,19 +22,19 @@ A su vez Eloquent permite realizar migraciones para llevar control sobre las ope
 ```sh
 public function up()
 {
-		Schema::create('users', function($table){
-			$table->increments('id');
-			$table->string('name', 60);
-			$table->string('phone', 20);
-			$table->string('email', 100)->index();
-			$table->string('password', 100);
-			$table->tinyInteger('type');
-			$table->string('code', 20);
-			$table->string('facebookId', 20)->index();
-			$table->tinyInteger('state');
-			$table->rememberToken();
-			$table->timestamps();
-		});
+	Schema::create('users', function($table){
+		$table->increments('id');
+		$table->string('name', 60);
+		$table->string('phone', 20);
+		$table->string('email', 100)->index();
+		$table->string('password', 100);
+		$table->tinyInteger('type');
+		$table->string('code', 20);
+		$table->string('facebookId', 20)->index();
+		$table->tinyInteger('state');
+		$table->rememberToken();
+		$table->timestamps();
+	});
 }
 
 public function down()
@@ -47,14 +47,14 @@ public function down()
 ```sh
 public function up()
 {
-		Schema::create('user_privileges', function($table){
-			$table->increments('id');
-			$table->integer('user_id')->references('id')->on('users')->onDelete('cascade');
-			$table->boolean('view')->default(0);
-			$table->boolean('edit')->default(0);
-			$table->boolean('delete')->default(0);
-			$table->timestamps();
-		});
+	Schema::create('user_privileges', function($table){
+		$table->increments('id');
+		$table->integer('user_id')->references('id')->on('users')->onDelete('cascade');
+		$table->boolean('view')->default(0);
+		$table->boolean('edit')->default(0);
+		$table->boolean('delete')->default(0);
+		$table->timestamps();
+	});
 }
 
 public function down()
